@@ -7,6 +7,7 @@ IMPORTANT: USAGE IS AS FOLLOWS
 https://uniofnottm-my.sharepoint.com/:u:/g/personal/enrique_sanchezlozano_nottingham_ac_uk/EZJmYC5b2IJErTYFIR3IqKcBhdyURabHTpv-KINsjBny_w?e=N5vDBq
 
 2) In Matlab, load model.mat
+
 2.1) model.mat contains the following variables: "model" and "params". 
 
 3) Define video = 'path_to_video.format' to process an existing video, or video = [] to process a webcam stream
@@ -16,7 +17,9 @@ https://uniofnottm-my.sharepoint.com/:u:/g/personal/enrique_sanchezlozano_nottin
 Example:
 
 load model.mat
+
 video = [];
+
 data = track(model, video, params);
 
 data will store the tracked points for the processed video
