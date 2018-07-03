@@ -1,12 +1,15 @@
 function data = track( model , video , params  )
 
-% - Enrique Sánchez-Lozano. University of Nottingham
+% - Enrique Sanchez-Lozano. University of Nottingham
 % - Code released as is for research purposes only. 
 % - Feel free to modify or redistribute.
 % - Should you use the code, please cite
-% - [1] E.Sánchez-Lozano, B.Martinez, G.Tzimiropoulos, M.Valstar. Cascaded
+% - [1] E.Sanchez-Lozano, G. Tzimiropoulos, B. Martinez, F. De la Torre, M.
+% Valstar. A Functional Regression approach to facial landmark tracking.
+% IEEE TPAMI. 2017
+% - [2] E.Sanchez-Lozano, B.Martinez, G.Tzimiropoulos, M.Valstar. Cascaded
 % Continuous Regression for Real-time Incremental Face Tracking. ECCV 2016.
-% - Feel free to contact me at psxes1@nottingham.ac.uk
+% - Feel free to contact me at Enrique.SanchezLozano@nottingham.ac.uk
 
 % - the video string should be either [] for webcam, or the path to the
 % video
@@ -37,6 +40,7 @@ end
 if isempty(video)
     obj = webcam(1);
     obj.Resolution = '640x480';
+    %obj.Resolution = '2304x1536';
 else
     obj = VideoReader(video);
 end;
@@ -46,7 +50,7 @@ global H %- the drawing scenario has been kindly adapted from the xx_track
 %%% Initialise the data and the model given the input object
 [ model , data ] = ccr_initialise( model , obj , video );
 
-
+np = size( model.shModel.s0 , 1 );
 incLearning = params.incLearning;
 pts = [];
 
@@ -61,36 +65,50 @@ while keep
     else
         im = snapshot( obj );
     end;
+    if isfield(params,'transform')
+    im = imrotate(im, params.transform.pm);
+    im = imresize( im , params.transform.sc );
+    if params.transform.flip
+        im = im(:,end:-1:1,:);
+    end
+    end
+   % im = im(:,end:-1:1,:);
     imcpy = im;
     
+   
     
     % - track points
     % - usage: [ pts , img ] = ccr_track( im , pts , model );
-    box = zeros(66,1);
+    box = zeros(np,1);
     if isempty( pts )
         % - detect
-        if ispc
-            %- Should you want to speed up the detection process you can
-            %constrain the detection to an area within the points of the
-            %previous frame
-            %if i > 1
-            %    pts = detect_points_PRL( im , model.cbSDM_model , data.tracked_pts(:,:,i-1));
-            %else % - detect the points on the whole image
-                pts = detect_points_PRL( im , model.cbSDM_model );
-            %end
-        else
-            pts = detect_points_VJ( im , model.cbSDM_model );
+        pts = detect_pts_SDM( im , model );
+      
+         %shape66( [ 61,65 ], :, : ) = [];
+        if np == 68 && size( pts , 1 ) == 66
+            pts = [pts(1:60,:); zeros(1,2); pts(61:63,:); zeros(1,2); pts(64:66,:)];
         end
         
         if ~isempty( pts )
             % - apply a tracking step
-            [ im , pts , box ] = cropImage( im , pts );
+            [ imcrop , ptscrop , box ] = cropImage( im , pts );
+            if size( imcrop , 1 ) * size( imcrop , 2 ) > 0
+                im = imcrop; pts = ptscrop; 
+            else
+                box = [0 0];
+            end
             [ pts , img ] = ccr_track( im , pts , model );
         end
     else
         % - track the points
-        [ im , pts , box ] = cropImage( im , pts );
+         [ imcrop , ptscrop , box ] = cropImage( im , pts );
+            if size( imcrop , 1 ) * size( imcrop , 2 ) > 0
+                im = imcrop; pts = ptscrop; 
+            else
+                box = [0 0];
+            end
         [ pts , img ] = ccr_track( im , pts , model );
+         
         % - detect whether the result is OK or not
         % - here we use the same distance both to detect a lost and to estimate the
         % suitability of a frame to update the model's tracker
@@ -99,13 +117,12 @@ while keep
         if data.distance(i) < threshold
             % - lost frame, try to detect the face again
             if ispc
-               %if i > 1
-               %    pts = detect_points_PRL( im , model.cbSDM_model , data.tracked_pts(:,:,i-1));
-               %else
-               pts = detect_points_PRL( im , model.cbSDM_model );
-               %end
+               pts = detect_pts_SDM( im , model );
             else
-                pts = detect_points_VJ( im , model.cbSDM_model );
+                pts = detect_points_PRL_Linux( im , model.cbSDM_model );
+            end
+            if np == 68 && size( pts , 1 ) == 66
+            pts = [pts(1:60,:); zeros(1,2); pts(61:63,:); zeros(1,2); pts(64:66,:)];
             end
             if ~isempty( pts )
                 [ pts , img ] = ccr_track( im , pts , model );
@@ -113,14 +130,20 @@ while keep
             fprintf( 'Tracker Lost\n');
         end
     end
+    
+    %%%%% FURTHER PROCESSING HERE
+%     if ~isempty( pts )
+%         [ rec, imgout ] = registerandwarp(im2double(im), double(pts), model.shModel , [256 256] , 0 );
+%     end
+    
     % - update the data with the statistics obtained through the given
     % frames
     if ~isempty( pts )
-        [ data , model ] = ccr_update_data( pts + ones(66,1)*box , model , data , i );
+        [ data , model ] = ccr_update_data( pts + ones(np,1)*box , model , data , i );
     else
         data.lost(i) = 1;
         if i == 1
-            data.tracked_pts(:,:,i) = -1 * ones( size( model.shModel.mShape , 1 ) , 2 );
+            data.tracked_pts(:,:,i) = -1 * ones( np , 2 );
         else
             data.tracked_pts(:,:,i) = data.tracked_pts(:,:,i-1);
         end
@@ -159,7 +182,7 @@ while keep
     
     drawnow;
     if ~isempty( pts )
-        pts = pts + ones(66,1)*box;
+        pts = pts + ones(np,1)*box;
         data.tracked_pts(:,:,i) = pts;
     end
     i = i + 1;
@@ -232,7 +255,7 @@ end
       else       
         % create tracked points drawing
  %       S.pts_h   = plot(output.pred(:,1), output.pred(:,2), 'g*', 'markersize',2);
-       S.pts_h   = plot(output.pred(:,1), output.pred(:,2), 'g.', 'markersize',16);
+       S.pts_h   = plot(output.pred(:,1), output.pred(:,2), 'r.', 'markersize',16);
 
         
         % create frame/second drawing
