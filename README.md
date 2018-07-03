@@ -14,9 +14,10 @@ https://uniofnottm-my.sharepoint.com/:u:/g/personal/enrique_sanchezlozano_nottin
 4) Call track(model, video, params);
 
 Example:
->>load model.mat
->>video = [];
->>data = track(model, video, params);
+
+load model.mat
+video = [];
+data = track(model, video, params);
 
 data will store the tracked points for the processed video
 
