@@ -14,7 +14,7 @@ https://uniofnottm-my.sharepoint.com/:u:/g/personal/enrique_sanchezlozano_nottin
 
 Example:
 
-load model.mat \\
+load model.mat \n
 video = [];
 data = track(model, video, params); % - data will store the tracked points for the processed video
 
