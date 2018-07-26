@@ -14,8 +14,10 @@ https://uniofnottm-my.sharepoint.com/:u:/g/personal/enrique_sanchezlozano_nottin
 
 Example:
 
-load model.mat \n
+load model.mat
+
 video = [];
+
 data = track(model, video, params); % - data will store the tracked points for the processed video
 
 - Should you want to detect the points in single images (i.e. without applying the tracking step), you can proceed as follows:
