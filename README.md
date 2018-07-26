@@ -24,6 +24,14 @@ data = track(model, video, params);
 
 data will store the tracked points for the processed video
 
+Should you want to detect the points in single images (i.e. without applying the tracking step), you can proceed as follows:
+
+pts = detect_pts_SDM( im , model ); % - where im is the target image
+
+You can also refine the points applying a tracking step on the given points:
+
+pts = ccr_track( im , pts , model );
+
 
 Copyright © 2018. Enrique Sánchez-Lozano
 
@@ -37,8 +45,7 @@ Important: Code is released as is for research purposes only.
 
 CCR models have been trained using the LFPW, HELEN, AFW, IBUG, Multi-PIE and 300VW (training partition) datasets. 
 
-Should you use the code as is, please cite [1] and [2]. Should you use your own initialisation system, please cite [1]. 
-The (bounding box) face detection utilises the DLIB library, and has been compiled only in Windows, and therefore is not yet available for Mac or Linux. Instead, the built-in Viola-Jones-based face detection system is used, which may result in a drop of performance. 
+Should you use the code as is, please cite [1] and [2]. The (bounding box) face detection utilises the DLIB library, and has been compiled only in Windows, and therefore is not yet available for Mac or Linux. Instead, the built-in Viola-Jones-based face detection system is used, which may result in a drop of performance. 
 
 
 Contact: Enrique Sánchez-Lozano, Enrique.SanchezLozano@nottingham.ac.uk
