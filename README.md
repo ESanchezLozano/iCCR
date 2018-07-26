@@ -1,5 +1,4 @@
-# iCCR -> Incremental Cascaded Continuous Regression. Copyright @ 2018.
-
+# iCCR -> Incremental Cascaded Continuous Regression.
 # IMPORTANT: USAGE IS AS FOLLOWS
 
 1) Download and unrar the model, from: 
