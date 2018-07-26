@@ -1,5 +1,4 @@
-# iCCR
-# Incremental Cascaded Continuous Regression. Copyright @ 2018.
+# iCCR -> Incremental Cascaded Continuous Regression. Copyright @ 2018.
 
 # IMPORTANT: USAGE IS AS FOLLOWS
 
@@ -20,11 +19,11 @@ load model.mat
 video = [];
 data = track(model, video, params); % - data will store the tracked points for the processed video
 
-# Should you want to detect the points in single images (i.e. without applying the tracking step), you can proceed as follows:
+- Should you want to detect the points in single images (i.e. without applying the tracking step), you can proceed as follows:
 
 pts = detect_pts_SDM( im , model ); % - where im is the target image
 
-You can also refine the points applying a tracking step on the given points:
+- You can also refine the points applying a tracking step on the given points:
 
 pts = ccr_track( im , pts , model );
 
