@@ -6,7 +6,7 @@ https://uniofnottm-my.sharepoint.com/:u:/g/personal/enrique_sanchezlozano_nottin
 
 2) In Matlab, load model.mat
 
-2.1) model.mat contains the following variables: "model" and "params". 
+  2.1) model.mat contains the following variables: "model" and "params". 
 
 3) Define video = 'path_to_video.format' to process an existing video, or video = [] to process a webcam stream
 
