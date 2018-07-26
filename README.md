@@ -1,32 +1,32 @@
 # iCCR -> Incremental Cascaded Continuous Regression.
 # IMPORTANT: USAGE IS AS FOLLOWS
 
-1) Download and unrar the model, from: 
+- Download and unrar the model, from: 
 https://uniofnottm-my.sharepoint.com/:u:/g/personal/enrique_sanchezlozano_nottingham_ac_uk/EZJmYC5b2IJErTYFIR3IqKcBhdyURabHTpv-KINsjBny_w?e=N5vDBq
 
-2) In Matlab, load model.mat
+- In Matlab, load model.mat
 
-  2.1) model.mat contains the following variables: "model" and "params". 
+  - model.mat contains the following variables: "model" and "params". 
 
-3) Define video = 'path_to_video.format' to process an existing video, or video = [] to process a webcam stream
+- Define video = 'path_to_video.format' to process an existing video, or video = [] to process a webcam stream
 
-4) Call track(model, video, params);
+- Call track(model, video, params);
 
-Example:
+- Example:
 
-load model.mat
+>>load model.mat
 
-video = [];
+>>video = [];
 
-data = track(model, video, params); % - data will store the tracked points for the processed video
+>>data = track(model, video, params); % - data will store the tracked points for the processed video
 
 - Should you want to detect the points in single images (i.e. without applying the tracking step), you can proceed as follows:
 
-pts = detect_pts_SDM( im , model ); % - where im is the target image
+>>pts = detect_pts_SDM( im , model ); % - where im is the target image
 
 - You can also refine the points applying a tracking step on the given points:
 
-pts = ccr_track( im , pts , model );
+>>pts = ccr_track( im , pts , model );
 
 
 # Copyright © 2018. Enrique Sánchez-Lozano
