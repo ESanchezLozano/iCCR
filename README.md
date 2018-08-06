@@ -30,17 +30,41 @@ https://uniofnottm-my.sharepoint.com/:u:/g/personal/enrique_sanchezlozano_nottin
 
 ## Copyright © 2018. Enrique Sánchez-Lozano
 
-This is the Matlab code for paper:
+This is the Matlab code for papers:
 
-[1] Enrique Sánchez-Lozano, Georgios Tzimiropoulos, Brais Martinez, Fernando De la Torre and Michel Valstar. A Functional Regression approach to Facial Landmark Tracking. In: IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI). 2018 (Early access). https://ieeexplore.ieee.org/abstract/document/8017515/
+```
+@ARTICLE{sanchez2018pami, 
+  author={E. Sánchez-Lozano and G. Tzimiropoulos and B. Martinez and F. {De la Torre} and M. Valstar}, 
+  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence}, 
+  title={A Functional Regression Approach to Facial Landmark Tracking}, 
+  year={2018}, 
+  volume={40}, 
+  number={9}, 
+  pages={2037-2050}, 
+  doi={10.1109/TPAMI.2017.2745568}, 
+  ISSN={0162-8828}, 
+  month={Sept},
+}
+```
 
-[2] Enrique Sánchez-Lozano, Brais Martinez, Georgios Tzimiropoulos and Michel Valstar. Cascaded Continuous Regression for Real-time Incremental Face Tracking. In: ECCV (VIII) pp. 645—661. 2016.
+```
+@inproceedings{sanchez2016eccv,
+  author="S{\'a}nchez-Lozano, Enrique and Martinez, Brais and Tzimiropoulos, Georgios and Valstar, Michel",
+  editor="Leibe, Bastian and Matas, Jiri and Sebe, Nicu and Welling, Max", 
+  title="Cascaded Continuous Regression for Real-Time Incremental Face Tracking",
+  booktitle="Computer Vision -- ECCV 2016",
+  year="2016",
+  publisher="Springer International Publishing",
+  pages="645--661",
+  isbn="978-3-319-46484-8"
+}
+```
 
 Important: Code is released as is for research purposes only. 
 
 CCR models have been trained using the LFPW, HELEN, AFW, IBUG, Multi-PIE and 300VW (training partition) datasets. 
 
-Should you use the code as is, please cite [1] and [2]. The (bounding box) face detection utilises the DLIB library, and has been compiled only in Windows, and therefore is not yet available for Mac or Linux. Instead, the built-in Viola-Jones-based face detection system is used, which may result in a drop of performance. 
+Should you use the code as is, please cite the papers above. The (bounding box) face detection utilises the DLIB library, and has been compiled only in Windows. For Mac and Linux the built-in Viola-Jones-based face detection system is used, which may result in a drop of performance. 
 
 
 Contact: Enrique Sánchez-Lozano, Enrique.SanchezLozano@nottingham.ac.uk
