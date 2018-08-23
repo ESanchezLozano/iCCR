@@ -4,7 +4,7 @@
 - Download and unrar the model, from: 
 https://uniofnottm-my.sharepoint.com/:u:/g/personal/enrique_sanchezlozano_nottingham_ac_uk/EZJmYC5b2IJErTYFIR3IqKcBhdyURabHTpv-KINsjBny_w?e=N5vDBq
 
-- Alternatively, you can download the code from [https://www.dropbox.com/s/6qwl2ca0m607o8d/model.rar?dl=0]https://www.dropbox.com/s/6qwl2ca0m607o8d/model.rar?dl=0
+- Alternatively, you can download the code from [https://www.dropbox.com/s/6qwl2ca0m607o8d/model.rar?dl=0]
 
 - In Matlab, load model.mat
 
